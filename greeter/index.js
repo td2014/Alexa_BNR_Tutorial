@@ -19,7 +19,7 @@ GreeterService.prototype.intenHandlers = {
 
 // This is a AWS Lambda Handler.  Handles JSON messages from the interface and routes them
 // to the service.
-export.handler = function(event, context) {
+exports.handler = function(event, context) {
     var greeterService = new GreeterService();
     greeterService.execute(event, context);
 };
