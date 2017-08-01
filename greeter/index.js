@@ -13,7 +13,7 @@ var helloResponseFunction = function(intent, session, response) {
 };
 GreeterService.prototype.eventHandlers.onLaunch = helloResponseFunction;
 
-GreeterService.prototype.intenHandlers = {
+GreeterService.prototype.intentHandlers = {
     'HelloWorldIntent': helloResponseFunction
 };
 
