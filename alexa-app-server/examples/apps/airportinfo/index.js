@@ -26,7 +26,7 @@ skill.intent('airportInfoIntent', {
             response.say(prompt).reprompt(reprompt).shouldEndSession(false);
             return true;
         } else {
-            var alexaFAADataHelper = new AlexaFAADataHelp();
+            var alexaFAADataHelper = new AlexaFAADataHelper();
             alexaFAADataHelper.getAirportStatus(airportCode).then(function(airportStatus) {
                 console.log(airportStatus);
                 response.say(alexaFAADataHelper.formatAirportStatus(airportStatus)).send();
