@@ -1,6 +1,6 @@
 'use strict';
 var _ = require('lodash');
-var rp = require('request-promise');
+var requestPromise = require('request-promise');
 var ENDPOINT = 'http://services.faa.gov/airport/status/';
 
 function AlexaFAADataHelper() {}
@@ -53,11 +53,10 @@ function(airportCode) {
     var options = {
         method: 'GET',
         uri: ENDPOINT + airportCode,
-        resolveWithFullResponse: true,
         json: true
     };
 
-    return rp(options);
+    return requestPromise(options);
 };
 
 module.exports = AlexaFAADataHelper;
