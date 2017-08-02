@@ -25,28 +25,13 @@ AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObject)
         return template({
             airport: airportStatusObject.name,
             delay_time: airportStatusObject.status.avgDelay,
-            delay_reason: airportStatusObject.status.reason,
+            delay_reason: airportStatusObject.status.reason
         });
         } else {
-
           // no delay
-
-          return _.template('There is currently no delay at ${airport}.')({
-              airport: airportStatusObject.name,
-          });
-
+          var template = _.template('There is currently no delay at ${airport}.');
+          return template({ airport: airportStatusObject.name });
         }
-
     };
-
-
-AlexaFAADataHelper.prototype.requestAirportStatus = function(airportCode) {
-    return this.getAirportStatus(airportCode).then(
-        function(response) {
-            console.log('success - received airport info for ' + airportCode);
-            return response.body;
-        }
-    );
-};
 
 module.exports = AlexaFAADataHelper;
