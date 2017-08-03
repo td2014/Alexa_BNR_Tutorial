@@ -1,6 +1,8 @@
 'use strict';
 var _ = require('lodash');
-var requestPromise = require('request-promise');
+var http = require('http');
+//var requestPromise = require('request-promise');
+var requestPromise = require('promise');
 var ENDPOINT = 'http://services.faa.gov/airport/status/';
 
 function AlexaFAADataHelper() {}
@@ -8,17 +10,33 @@ function AlexaFAADataHelper() {}
 AlexaFAADataHelper.prototype.getAirportStatus = 
 function(airportCode) {
     var options = {
-        method: 'GET',
-        uri: ENDPOINT + airportCode,
-        json: true
+        host: 'services.faa.gov',
+        path: '/airport/status/'+airportCode+'?format=application/json'
     };
-
-    return requestPromise(options);
+    var promise = new requestPromise(function (resolve, reject) {
+        http.get(options, function (res) {
+            var res2 = 'fake http result.'
+            res.setEncoding('utf8');
+            let rawData = '';
+            res.on('data', (chunk) => { rawData += chunk; });
+            res.on('end', () => {
+//                const parsedData = JSON.parse(rawData);
+                console.log(rawData);
+                resolve(rawData);
+            });
+            }).on('error', (e) => {
+                reject(e.message);
+            });
+    });
+    return promise;
 };
 
 AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObject) {
-
-    if (airportStatusObject.delay === 'true') {
+      console.log('in formatAirportStatus: passed in airportStatusObject = ', airportStatusObject);
+//      airportStatusObject = 'returnValue from formatAirportStatus';
+      return airportStatusObject;
+};
+/*    if (airportStatusObject.delay === 'true') {
         var template = _.template('There is currently a delay for ${airport}. ' +
             'The average delay time is ${delay_time}. ' +
             'Delay is because of the following: ${delay_reason}.');
@@ -33,5 +51,5 @@ AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObject)
           return template({ airport: airportStatusObject.name });
         }
     };
-
+*/
 module.exports = AlexaFAADataHelper;

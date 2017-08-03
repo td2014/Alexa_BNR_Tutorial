@@ -27,15 +27,10 @@ skill.intent('airportInfoIntent', {
             return true;
         } else {
             var alexaFAADataHelper = new AlexaFAADataHelper();
-            alexaFAADataHelper.getAirportStatus(airportCode).then(function(airportStatus){
+            return alexaFAADataHelper.getAirportStatus(airportCode).then(function(airportStatus){
                 var prompt = alexaFAADataHelper.formatAirportStatus(airportStatus);
-                response.say(prompt).send();
-            }).catch(function(err) {
-                console.log(err.statusCode);
-                var prompt = 'I didn\'t have data from an airport code of ' + airportCode;
-                response.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
+                response.say(prompt);
             });
-            return false;
         }
     }
 );
