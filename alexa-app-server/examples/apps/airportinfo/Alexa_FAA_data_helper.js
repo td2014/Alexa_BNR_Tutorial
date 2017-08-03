@@ -1,9 +1,7 @@
 'use strict';
 var _ = require('lodash');
 var http = require('http');
-//var requestPromise = require('request-promise');
 var requestPromise = require('promise');
-var ENDPOINT = 'http://services.faa.gov/airport/status/';
 
 function AlexaFAADataHelper() {}
 
@@ -15,28 +13,43 @@ function(airportCode) {
     };
     var promise = new requestPromise(function (resolve, reject) {
         http.get(options, function (res) {
-            var res2 = 'fake http result.'
+            const { statusCode } = res;
+            let error;
+            if (statusCode !== 200) {
+                error = new Error('Request failed - status not 200\n');
+                console.log('Error:  Status not 200.');
+                reject('Error: Status not 200.');
+                res.resume();
+                return;
+            }
             res.setEncoding('utf8');
             let rawData = '';
             res.on('data', (chunk) => { rawData += chunk; });
             res.on('end', () => {
-//                const parsedData = JSON.parse(rawData);
-                console.log(rawData);
-                resolve(rawData);
+                try {
+                    resolve(rawData);
+                } catch (e) {
+                    console.log('Inner Error Triggered.');
+                    console.error(e.message);
+                    reject(e.message);
+                }
             });
             }).on('error', (e) => {
+                console.log('Outer Error Triggered.');
+                console.error(e.message);
                 reject(e.message);
             });
     });
     return promise;
 };
 
-AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObject) {
-      console.log('in formatAirportStatus: passed in airportStatusObject = ', airportStatusObject);
-//      airportStatusObject = 'returnValue from formatAirportStatus';
-      return airportStatusObject;
-};
-/*    if (airportStatusObject.delay === 'true') {
+AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObjectRaw) {
+    console.log('Format:  airportstatusObjectRaw = ', airportStatusObjectRaw);
+    var airportStatusObject = JSON.parse(airportStatusObjectRaw);
+    console.log('Format:  airportStatusObject.delay = ', airportStatusObject.delay);
+    console.log('Format:  airportStatusObject.name = ', airportStatusObject.name);
+
+    if (airportStatusObject.delay === 'true') {
         var template = _.template('There is currently a delay for ${airport}. ' +
             'The average delay time is ${delay_time}. ' +
             'Delay is because of the following: ${delay_reason}.');
@@ -51,5 +64,5 @@ AlexaFAADataHelper.prototype.formatAirportStatus = function(airportStatusObject)
           return template({ airport: airportStatusObject.name });
         }
     };
-*/
+
 module.exports = AlexaFAADataHelper;
