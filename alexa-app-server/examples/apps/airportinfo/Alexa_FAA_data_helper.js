@@ -20,20 +20,20 @@ function(airportCode) {
                 console.log('Error:  Status not 200.');
                 reject('Error: Status not 200.');
                 res.resume();
-                return;
+            } else {
+                res.setEncoding('utf8');
+                let rawData = '';
+                res.on('data', (chunk) => { rawData += chunk; });
+                res.on('end', () => {
+                    try {
+                        resolve(rawData);
+                    } catch (e) {
+                        console.log('Inner Error Triggered.');
+                        console.error(e.message);
+                        reject(e.message);
+                    }
+                });
             }
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => { rawData += chunk; });
-            res.on('end', () => {
-                try {
-                    resolve(rawData);
-                } catch (e) {
-                    console.log('Inner Error Triggered.');
-                    console.error(e.message);
-                    reject(e.message);
-                }
-            });
             }).on('error', (e) => {
                 console.log('Outer Error Triggered.');
                 console.error(e.message);

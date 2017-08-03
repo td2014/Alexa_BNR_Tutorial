@@ -30,9 +30,13 @@ skill.intent('airportInfoIntent', {
             return alexaFAADataHelper.getAirportStatus(airportCode).then(function(airportStatus){
                 var prompt = alexaFAADataHelper.formatAirportStatus(airportStatus);
                 response.say(prompt);
+            }).catch(function(err) {
+                console.log('Caught error in skill intent');
+                console.log(err.statusCode);
+                var prompt = 'I didn\'t have data for an airport code of '+ airportCode;
+                response.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
             });
-        }
-    }
-);
+          }
+        });
 
 module.exports = skill;
