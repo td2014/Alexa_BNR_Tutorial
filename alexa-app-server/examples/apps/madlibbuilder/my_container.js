@@ -56,3 +56,5 @@ MyContainer.prototype.set_contextual_help = function(helpMessage){
     this.contextualHelp = helpMessage;
     return this.contextualHelp;
 };
+
+module.exports = MyContainer;
