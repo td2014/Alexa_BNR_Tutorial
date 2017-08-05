@@ -20,7 +20,11 @@ SkillService.launch(function(request, response) {
 
 SkillService.intent('AddWordIntent', {},
     function(request, response) {
-        console.log('launch request: request = ', request);
+        console.log('intent request: request = ', request);
+        var myWordArray = request.sessionAttributes.WordArray;
+        console.log('intent request: myWordArray = ', myWordArray);
+        myWordArray.push('Word2');
+        response.sessionObject.set('WordArray', myWordArray); 
         response.say('What').shouldEndSession(false);
 });
 
