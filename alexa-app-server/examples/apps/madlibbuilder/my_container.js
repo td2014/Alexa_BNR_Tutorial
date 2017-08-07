@@ -6,6 +6,11 @@ function MyContainer(name) {
     this.contextualHelp = 'You can say, give me a list.';
 }
 
+// get_name
+MyContainer.prototype.get_name = function(){
+    return this.name;
+};
+
 // get_list_of_objects
 
 MyContainer.prototype.get_list_of_objects_spoken = function() {
