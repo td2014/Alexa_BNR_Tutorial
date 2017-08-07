@@ -44,6 +44,7 @@ SkillService.launch(
             }
         });
 
+        // Array to keep track of madlib words
         var myWordArray = new Array();
     
         response.sessionObject.set('WordArray', myWordArray); 
@@ -52,16 +53,21 @@ SkillService.launch(
 
     });
 
-SkillService.intent('FillIntent', {}, 
+SkillService.intent('FillIntent', {
+    },
     function(request, response) {
         response.sessionObject.set('AppState', 'FillingMadlib'); 
     });
 
-SkillService.intent('WordIntent', {},
+SkillService.intent('WordIntent', {
+    'slots': {'CURRENTWORD': 'AMAZON.LITERAL'},
+    'utterances': ['{CURRENTWORD}'] 
+    },
     function(request, response) {
         
         var myWordArray = request.sessionAttributes.WordArray;
-        myWordArray.push('Word2');
+        var currWord = request.slot('CURRENTWORD');
+        myWordArray.push(currWord);
 
         response.sessionObject.set('WordArray', myWordArray); 
         response.sessionObject.set('AppState', 'DoneMadlib'); 
