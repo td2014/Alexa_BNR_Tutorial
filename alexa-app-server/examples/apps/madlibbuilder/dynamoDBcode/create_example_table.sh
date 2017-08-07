@@ -7,10 +7,8 @@ aws dynamodb create-table \
     --table-name myMadlibDB \
     --attribute-definitions \
         AttributeName=userID,AttributeType=S \
-        AttributeName=madlibName,AttributeType=S \
     --key-schema \
         AttributeName=userID,KeyType=HASH \
-        AttributeName=madlibName,KeyType=RANGE \
     --provisioned-throughput \
         WriteCapacityUnits=1,ReadCapacityUnits=2 
  
