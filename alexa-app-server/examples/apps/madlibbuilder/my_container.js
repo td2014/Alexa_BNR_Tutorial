@@ -1,7 +1,7 @@
 // Generic container class
 'use strict';
-function MyContainer(nameOfContainer) {
-    this.nameOfContainer = nameOfContainer;
+function MyContainer(name) {
+    this.name = name;
     this.listOfObjects = new Array();
     this.contextualHelp = 'You can say, give me a list.';
 }
