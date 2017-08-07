@@ -8,7 +8,7 @@ var AWS = require('aws-sdk');
 AWS.config.update({
    region: 'us-east-1',
    endpoint: 'https://dynamodb.us-east-1.amazonaws.com'});
-// var dynamodb = new AWS.DynamoDB();
+
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 SkillService.intent('AMAZON.HelpIntent', {}, 
@@ -17,13 +17,21 @@ SkillService.intent('AMAZON.HelpIntent', {},
         response.say(prompt).shouldEndSession(false);
     });
 
+SkillService.sessionEnded( 
+    function(request, response) {
+        console.log('SessionEnded called.');
+    });
+
 SkillService.launch(
     function(request, response) {
         var prompt = 'Welcome to Madlibs. ' 
             + 'To create a new madLib, say create a madlib';
    
         var dbParams = {
-            TableName : 'myMadlibDB'};
+            TableName : 'myMadlibDB',
+            KeyConditionExpression: "userID = :currUserID",
+            ExpressionAttributeValues: {":currUserID":"XYZ124"}
+        };
 
         docClient.query(dbParams, function(err,data) {
             if (err) {
