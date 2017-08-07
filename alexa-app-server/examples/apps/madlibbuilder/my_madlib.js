@@ -10,6 +10,9 @@ MyMadlib.prototype = Object.create(MyContainer.prototype);
 MyMadlib.prototype.constructor = MyMadlib;
 
 MyMadlib.prototype.get_current_wordtype_spoken = function(pos){
+   var storyTemplate = this.get_object('storyTemplate');
+   console.log('storyTemplate.name = ', storyTemplate.name);
+   console.log('storyTemplate.content = ', storyTemplate.content);
    return null;
 };
 
@@ -18,7 +21,9 @@ MyMadlib.prototype.get_full_story_spoken = function(wordArray){
 };
 
 MyMadlib.prototype.set_story_template = function(storyTemplate){
-    this.add_object(storyTemplate);
+    var storyTemplateObject = { 'name':'storyTemplate',
+                                'content':storyTemplate };
+    this.add_object(storyTemplateObject);
     return storyTemplate;
 };
 
