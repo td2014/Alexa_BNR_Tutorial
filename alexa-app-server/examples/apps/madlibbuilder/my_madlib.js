@@ -40,21 +40,16 @@ MyMadlib.prototype.set_story_template = function(storyTemplate){
     var storyArray = new Array();
     var templateFillMap = new Map();
     var recognizedWordTypes = require('./recognizedWordTypes.js');  
-    console.log('recognizedWordTypes = ', recognizedWordTypes);
-    console.log('recognizedWordTypes("adj") = ', recognizedWordTypes.TYPES['adj']);
  
     for (let iWord of wordArray) {
-        console.log('iWord = ', iWord);
         if (iWord.charAt(0)==="{" && iWord.charAt(iWord.length-1)==="}") {  //Keyword detected.
-       
             try {
                 let expandedType = recognizedWordTypes.TYPES[iWord.substring(1,iWord.length-1)];
-                console.log('iWord.substring(1,iWord.length) = ', iWord.substring(1,iWord.length-1)); 
-                console.log('ExpandedType = ', expandedType);
                 wordFillTypeArray.push(expandedType);
-                 
-//                storyArray.push(iWordRep + ' ');
-//                templateFillMap.set(iWordRep, null);
+
+                let iWordRep = 'word_'+counter.toString();                 
+                storyArray.push('${'+iWordRep + '} ');
+                templateFillMap.set(iWordRep, null);
                 counter+=1;  
             } catch(err) {
 
