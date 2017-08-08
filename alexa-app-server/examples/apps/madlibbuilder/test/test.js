@@ -34,7 +34,7 @@ describe('MyMadlibClass', function() {
         it('should return "noun"  when you have loaded Summertime madlib and asked for second word', function() {
             myMadlib.set_story_template(madlibStories.MADLIB_CONTENT[1]);
 
-            assert.equal('noun', myMadlib.get_current_wordtype_spoken());
+            assert.equal('noun', myMadlib.get_current_wordtype_spoken(1));
         });
     });
 });
