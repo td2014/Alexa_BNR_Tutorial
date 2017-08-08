@@ -1,6 +1,7 @@
 // madlib class that inherits from MyContainer and adds 
 // some specialization for handling stories.
 'use strict';
+var _ = require('lodash');
 var MyContainer = require('./my_container.js');
 
 function MyMadlib(name) {
@@ -21,6 +22,11 @@ MyMadlib.prototype.get_full_story_spoken = function(wordArray){
 };
 
 MyMadlib.prototype.set_story_template = function(storyTemplate){
+
+// Transform the storyTemplate into something than can be modified via lodash templates.
+
+    var wordArray = _.words(storyTemplate, /[a-zA-Z\{\}]+/g); 
+    console.log(wordArray);
     var storyTemplateObject = { 'name':'storyTemplate',
                                 'content':storyTemplate };
     this.add_object(storyTemplateObject);
