@@ -31,7 +31,7 @@ MyMadlib.prototype.set_story_template = function(storyTemplate){
 //    Word.  OR Word, OR Word (space)  -Any where.
 //    {abc. OR {abc, OR {abc(space)   or  abc}  NOT allowed
 
-    var wordArray = _.words(storyTemplate, /[,.]|\{[a-zA-Z]+\}|\s[a-zA-Z]+(?!\})(?=\s|\.|\,)/g);
+    var wordArray = _.words(storyTemplate, /[,.]|\{[a-zA-Z]+\}|\s[a-zA-Z]+(?!\})(?=\s|\.|\,)|^[a-zA-Z]+(?!\})(?=\s|\.|\,)/g);
 
     console.log(wordArray);
     var storyTemplateObject = { 'name':'storyTemplate',
