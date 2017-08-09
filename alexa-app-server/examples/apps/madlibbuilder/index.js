@@ -72,10 +72,11 @@ SkillService.launch(
 
               prompt+= prompt + ' Here is the list of madlibs you can play.';
 
-              var name1 = '';
+              var name1 = 'Summertime';
               prompt+=prompt+ 'Just say, play' + name1 + 
                   ' if you want to play the ' + name1 + ' madlib, or any other one from the list.'; 
 
+              response.sessionObject.set('currentMadlib', name1); 
               response.sessionObject.set('AppState', 'ChooseMadlib'); 
               response.say(prompt).shouldEndSession(false);
 //        }
@@ -85,7 +86,8 @@ SkillService.launch(
 SkillService.intent('FillIntent', {
     },
     function(request, response) {
-        var currentGame = MyMadlibContainer.get_object('Summertime');
+        console.log('FillIntent: currentMadlib = ', request.sessionAttributes.currentMadlib);
+        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = 'Please give me one ' + currentGame.get_current_wordtype_spoken();
         response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'FillingMadlib'); 
@@ -98,7 +100,7 @@ SkillService.intent('WordIntent', {
     function(request, response) {
 
         var currWord = request.slot('CURRENTWORD');
-        var currentGame = MyMadlibContainer.get_object('Summertime');
+        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         
         currentGame.set_current_word(currWord);
         
@@ -114,7 +116,7 @@ SkillService.intent('WordIntent', {
 
 SkillService.intent('ReadbackIntent', {}, 
     function(request, response) {
-        var currentGame = MyMadlibContainer.get_object('Summertime');
+        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = currentGame.get_story_spoken();
         response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'End'); 
