@@ -10,6 +10,15 @@ function MyMadlib(name) {
 MyMadlib.prototype = Object.create(MyContainer.prototype);
 MyMadlib.prototype.constructor = MyMadlib;
 
+MyMadlib.prototype.get_state = function(){
+    return this.get_object('storyTemplate');
+};
+
+MyMadlib.prototype.set_state = function(storyTemplateObject){
+    this.add_object(storyTemplateObject);
+    return this.get_object('storyTemplate');
+};
+
 MyMadlib.prototype.get_current_wordtype_spoken = function(){
    var storyTemplate = this.get_object('storyTemplate');
    console.log('get_current_wordtype_spoken: storyTemplate.templateFillMap = ', storyTemplate.templateFillMap);
