@@ -23,6 +23,21 @@ MyMadlib.prototype.get_current_wordtype_spoken = function(){
    return null;  // story is filled out.
 };
 
+MyMadlib.prototype.set_current_word = function(currWord){
+   var storyTemplate = this.get_object('storyTemplate');
+   console.log('set_current_word: storyTemplate.templateFillMap = ', storyTemplate.templateFillMap);
+   
+   for (let iPos=0; iPos < storyTemplate.wordfilltype.length; iPos++) {
+       let currKey = 'word_'+iPos.toString();
+       if (storyTemplate.templateFillMap.get(currKey)===null ) {
+           storyTemplate.templateFillMap.set(currKey, currWord);
+           return storyTemplate.templateFillMap.get(currKey);
+       } 
+   }
+   return null;  // story is filled out.
+};
+
+
 MyMadlib.prototype.get_full_story_spoken = function(wordArray){
     return null;
 };
