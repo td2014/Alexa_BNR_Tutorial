@@ -10,13 +10,17 @@ function MyMadlib(name) {
 MyMadlib.prototype = Object.create(MyContainer.prototype);
 MyMadlib.prototype.constructor = MyMadlib;
 
-MyMadlib.prototype.get_current_wordtype_spoken = function(pos){
+MyMadlib.prototype.get_current_wordtype_spoken = function(){
    var storyTemplate = this.get_object('storyTemplate');
-   console.log('storyTemplate.name = ', storyTemplate.name);
-   console.log('storyTemplate.content = ', storyTemplate.content);
-   console.log('storyTemplate.wordfilltype = ', storyTemplate.wordfilltype);
-   console.log('storyTemplate.wordfilltype[1] = ', storyTemplate.wordfilltype[1]);
-   return storyTemplate.wordfilltype[pos];
+   console.log('get_current_wordtype_spoken: storyTemplate.templateFillMap = ', storyTemplate.templateFillMap);
+   
+   for (let iPos=0; iPos < storyTemplate.wordfilltype.length; iPos++) {
+       let currKey = 'word_'+iPos.toString();
+       if (storyTemplate.templateFillMap.get(currKey)===null ) {
+           return storyTemplate.wordfilltype[iPos];
+       } 
+   }
+   return null;  // story is filled out.
 };
 
 MyMadlib.prototype.get_full_story_spoken = function(wordArray){
@@ -65,7 +69,8 @@ MyMadlib.prototype.set_story_template = function(storyTemplate){
 
     var storyTemplateObject = { 'name':'storyTemplate',
                                 'content':newStoryTemplate,
-                                'wordfilltype': wordFillTypeArray};
+                                'wordfilltype': wordFillTypeArray,
+                                'templateFillMap': templateFillMap};
     this.add_object(storyTemplateObject);
     console.log('storyTemplateObject', storyTemplateObject);
     return storyTemplate;
