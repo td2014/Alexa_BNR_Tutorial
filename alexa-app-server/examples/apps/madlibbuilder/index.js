@@ -31,12 +31,11 @@ SkillService.sessionEnded(
 SkillService.launch(
     function(request, response) {
 
-        var prompt = 'Welcome to Madlibs.';
+        var prompt = ' Welcome to Madlibs. ';
 
 // Load madlib stories and containers
 
     for (let iStory of madlibStories.MADLIBS) {
-        console.log('madlibbuilder: iStory = ', iStory);
         var myTmpMadlib = new MyMadlibClass(iStory.name);
         myTmpMadlib.set_story_template(iStory);
         MyMadlibContainer.add_object(myTmpMadlib);
@@ -70,13 +69,14 @@ SkillService.launch(
 
 //        } else {
 
-              prompt+= prompt + ' Here is the list of madlibs you can play.';
+              prompt+=  ' Here is the list of madlibs you can play. ';
 
-              var name1 = 'Summertime';
-              prompt+=prompt+ 'Just say, play' + name1 + 
+              var name1 = 'madlib';
+              var name1_temp = 'Summertime';
+              prompt+= ' Just say, play ' + name1 + 
                   ' if you want to play the ' + name1 + ' madlib, or any other one from the list.'; 
 
-              response.sessionObject.set('currentMadlib', name1); 
+              response.sessionObject.set('currentMadlib', name1_temp); 
               response.sessionObject.set('AppState', 'ChooseMadlib'); 
               response.say(prompt).shouldEndSession(false);
 //        }
@@ -84,6 +84,8 @@ SkillService.launch(
     });
 
 SkillService.intent('FillIntent', {
+    'slots': {},
+    'utterances': ['Play Madlibs.', 'Play Madlib.', 'Start Madlibs', 'Start Madlib.'] 
     },
     function(request, response) {
         console.log('FillIntent: currentMadlib = ', request.sessionAttributes.currentMadlib);
@@ -114,7 +116,10 @@ SkillService.intent('WordIntent', {
         response.say(prompt).shouldEndSession(false);
     });
 
-SkillService.intent('ReadbackIntent', {}, 
+SkillService.intent('ReadbackIntent', {
+    'slots': {},
+    'utterances': ['Read back Madlibs.', 'Read back Madlib.'] 
+    }, 
     function(request, response) {
         var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = currentGame.get_story_spoken();
