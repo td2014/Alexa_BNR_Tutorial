@@ -32,7 +32,7 @@ describe('MyMadlibClass', function() {
 describe('MyMadlibClass', function() {
     describe('get_current_wordtype_spoken()', function() {
         it('should return "adjective"  when you have loaded Summertime madlib and called get_current_wordtype_spoken()', function() {
-            myMadlib.set_story_template(madlibStories.MADLIB_CONTENT[1]);
+            myMadlib.set_story_template(madlibStories.MADLIBS[1]);
 
             assert.equal('adjective', myMadlib.get_current_wordtype_spoken());
         });
@@ -42,7 +42,7 @@ describe('MyMadlibClass', function() {
 describe('MyMadlibClass', function() {
     describe('get_current_wordtype_spoken()', function() {
         it('should return "noun"  when you have loaded Summertime madlib, set the first word, then get_current_wordtype_spoken()', function() {
-            myMadlib.set_story_template(madlibStories.MADLIB_CONTENT[1]);
+            myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
 
             assert.equal('noun', myMadlib.get_current_wordtype_spoken());
@@ -53,7 +53,7 @@ describe('MyMadlibClass', function() {
 describe('MyMadlibClass', function() {
     describe('get_current_wordtype_spoken()', function() {
         it('should return "null"  when you have loaded Summertime madlib, set the first and second words, then get_current_wordtype_spoken()', function() {
-            myMadlib.set_story_template(madlibStories.MADLIB_CONTENT[1]);
+            myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
             myMadlib.set_current_word('car');  // noun 
 

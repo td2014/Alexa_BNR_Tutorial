@@ -42,7 +42,7 @@ MyMadlib.prototype.get_full_story_spoken = function(wordArray){
     return null;
 };
 
-MyMadlib.prototype.set_story_template = function(storyTemplate){
+MyMadlib.prototype.set_story_template = function(storyTemplateMap){
 
 // Transform the storyTemplate into something than can be modified via lodash templates.
 // The below regex filters for text:  {keyword} or .  or , or words after a space or the first
@@ -51,6 +51,10 @@ MyMadlib.prototype.set_story_template = function(storyTemplate){
 //    {keyword}
 //    Word.  OR Word, OR Word (space)  -Any where.
 //    {abc. OR {abc, OR {abc(space)   or  abc}  NOT allowed
+
+    var storyTemplate = storyTemplateMap.content;
+    console.log('set_story_template: name = ', storyTemplateMap.name); 
+    console.log('set_story_template: storyTemplate = ', storyTemplate);
 
     var wordArray = _.words(storyTemplate, /[,.]|\{[a-zA-Z]+\}|\s[a-zA-Z]+(?!\})(?=\s|\.|\,)|^[a-zA-Z]+(?!\})(?=\s|\.|\,)/g);
 
