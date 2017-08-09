@@ -7,7 +7,7 @@ var AWS = require('aws-sdk');
 
 var madlibStories = require('./madlibStories.js');
 var MyContainer = require('./my_container.js');
-var MyMadlibContainer = new MyContainer('MyMadLibContainer');
+var MyMadlibContainer = null;
 var MyMadlibClass = require('./my_madlib.js');
 var currentGame = null;
 
@@ -36,6 +36,7 @@ SkillService.launch(
 
 // Load madlib stories and containers
 
+    MyMadlibContainer = new MyContainer('MyMadLibContainer');
     for (let iStory of madlibStories.MADLIBS) {
         var myTmpMadlib = new MyMadlibClass(iStory.name);
         myTmpMadlib.set_story_template(iStory);
@@ -74,7 +75,7 @@ SkillService.launch(
 
               var name1 = 'madlib';
               var name1_temp = 'Summertime';
-              prompt+= ' Just say, play ' + name1 + 
+              prompt+= ' Just say, go ' + name1 + 
                   ' if you want to play the ' + name1 + ' madlib, or any other one from the list.'; 
 
               response.sessionObject.set('currentMadlib', name1_temp); 
@@ -109,7 +110,7 @@ SkillService.intent('WordIntent', {
         
         var currWordType = currentGame.get_current_wordtype_spoken();
         if (currWordType === null) {
-            prompt = 'The madlib is filled out.  Do you want me to read it back?';
+            prompt = 'The madlib is filled out.  Do you want me to read it back? Say read back madlib.';
             response.sessionObject.set('AppState', 'DoneMadlib'); 
         } else {
             var prompt = 'Please give me one ' + currWordType;
@@ -124,7 +125,7 @@ SkillService.intent('ReadbackIntent', {
     function(request, response) {
 //        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = currentGame.get_story_spoken();
-        response.say(prompt).shouldEndSession(false);
+        response.say(prompt).shouldEndSession(true);
         response.sessionObject.set('AppState', 'End'); 
     });
 
