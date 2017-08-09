@@ -101,17 +101,22 @@ SkillService.intent('WordIntent', {
         var currentGame = MyMadlibContainer.get_object('Summertime');
         
         currentGame.set_current_word(currWord);
-
-        var prompt = 'Please give me one ' + currentGame.get_current_wordtype_spoken();
-        if (prompt === null) {
+        
+        var currWordType = currentGame.get_current_wordtype_spoken();
+        if (currWordType === null) {
             prompt = 'The madlib is filled out.  Do you want me to read it back?';
             response.sessionObject.set('AppState', 'DoneMadlib'); 
+        } else {
+            var prompt = 'Please give me one ' + currWordType;
         }
         response.say(prompt).shouldEndSession(false);
     });
 
 SkillService.intent('ReadbackIntent', {}, 
     function(request, response) {
+        var currentGame = MyMadlibContainer.get_object('Summertime');
+        var prompt = currentGame.get_story_spoken();
+        response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'End'); 
     });
 
