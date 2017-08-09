@@ -4,11 +4,11 @@ var _ = require('lodash');
 var Skill = require('alexa-app');
 var SkillService = new Skill.app('madlibbuilder');
 var AWS = require('aws-sdk');
-var MyContainer = require('./my_container.js');
-var MyMadlib = require('./my_madlib.js');
-//var madlibStories = require('./madlibStories.js');
 
+var madlibStories = require('./madlibStories.js');
+//var MyContainer = require('./my_container.js');
 //var MyMadlibContainer = new MyContainer('MyMadLibContainer');
+//var MyMadlib = require('./my_madlib.js');
 
 // Setup dynamoDB
 AWS.config.update({
@@ -35,9 +35,9 @@ SkillService.launch(
 
 // Load madlib stories and containers
 
-//    for (let iStory in madlibStories('MADLIB_NAMES')) {
-//        console.log('Story = ', iStory);
-//    }
+    for (let iStory of madlibStories.MADLIBS) {
+        console.log('madlibbuilder: iStory = ', iStory);
+    }
 
 // Check to see if user has previously stored unfinished madlib   
 
