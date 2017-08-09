@@ -9,6 +9,7 @@ var madlibStories = require('./madlibStories.js');
 var MyContainer = require('./my_container.js');
 var MyMadlibContainer = new MyContainer('MyMadLibContainer');
 var MyMadlibClass = require('./my_madlib.js');
+var currentGame = null;
 
 // Setup dynamoDB
 AWS.config.update({
@@ -85,11 +86,11 @@ SkillService.launch(
 
 SkillService.intent('FillIntent', {
     'slots': {},
-    'utterances': ['Play Madlibs.', 'Play Madlib.', 'Start Madlibs', 'Start Madlib.'] 
+    'utterances': ['Go Madlibs.', 'Go Madlib.'] 
     },
     function(request, response) {
         console.log('FillIntent: currentMadlib = ', request.sessionAttributes.currentMadlib);
-        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
+        currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = 'Please give me one ' + currentGame.get_current_wordtype_spoken();
         response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'FillingMadlib'); 
@@ -97,12 +98,12 @@ SkillService.intent('FillIntent', {
 
 SkillService.intent('WordIntent', {
     'slots': {'CURRENTWORD': 'AMAZON.LITERAL'},
-    'utterances': ['{CURRENTWORD}'] 
+    'utterances': ['{example|CURRENTWORD}'] 
     },
     function(request, response) {
 
         var currWord = request.slot('CURRENTWORD');
-        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
+//        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         
         currentGame.set_current_word(currWord);
         
@@ -121,7 +122,7 @@ SkillService.intent('ReadbackIntent', {
     'utterances': ['Read back Madlibs.', 'Read back Madlib.'] 
     }, 
     function(request, response) {
-        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
+//        var currentGame = MyMadlibContainer.get_object(request.sessionAttributes.currentMadlib);
         var prompt = currentGame.get_story_spoken();
         response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'End'); 
