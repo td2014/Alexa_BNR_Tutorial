@@ -3,6 +3,7 @@
 'use strict';
 var _ = require('lodash');
 var MyContainer = require('./my_container.js');
+var myUtils = require('./utils.js');
 
 function MyMadlib(name) {
     MyContainer.call(this, name);
@@ -47,8 +48,15 @@ MyMadlib.prototype.set_current_word = function(currWord){
 };
 
 
-MyMadlib.prototype.get_full_story_spoken = function(wordArray){
-    return null;
+MyMadlib.prototype.get_story_spoken = function(){
+    if (this.get_current_wordtype_spoken()!==null){  // Not at end of list.  Story not ready to be readback.
+        return null;
+    }
+    var storyTemplate = this.get_object('storyTemplate');
+    var template =  _.template(storyTemplate.content);
+    var strObj = myUtils.strMapToObj(storyTemplate.templateFillMap);
+    var fullStory = template(strObj); 
+    return fullStory; 
 };
 
 MyMadlib.prototype.set_story_template = function(storyTemplateMap){

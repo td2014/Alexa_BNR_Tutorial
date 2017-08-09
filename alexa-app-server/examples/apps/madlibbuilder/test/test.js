@@ -80,3 +80,29 @@ describe('MyMadlibClass', function() {
         });
     });
 });
+
+describe('MyMadlibClass', function() {
+    describe('get_story_spoken()', function() {
+        it('should return "null"  when you have loaded Summertime madlib, set the first word, then get_story_spoken()', function() {
+            var myMadlib = new MyMadlibClass('myMadlibName');
+            myMadlib.set_story_template(madlibStories.MADLIBS[1]);
+            myMadlib.set_current_word('happy');  // adjective
+
+            assert.equal(null, myMadlib.get_story_spoken());
+        });
+    });
+});
+
+describe('MyMadlibClass', function() {
+    describe('get_story_spoken()', function() {
+        it('should return filled-out story  when you have loaded Summertime madlib, set the first and second words, then get_story_spoken()', function() {
+            var myMadlib = new MyMadlibClass('myMadlibName');
+            myMadlib.set_story_template(madlibStories.MADLIBS[1]);
+            myMadlib.set_current_word('happy');  // adjective
+            myMadlib.set_current_word('car');  // noun
+            
+            var targetStory = 'Once  upon  a  summertime ,  there  was  this happy  bicycle  which  looked  like  a  big car . ';
+            assert.equal(targetStory, myMadlib.get_story_spoken());
+        });
+    });
+});
