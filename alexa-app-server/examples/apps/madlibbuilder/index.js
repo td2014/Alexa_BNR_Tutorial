@@ -6,9 +6,9 @@ var SkillService = new Skill.app('madlibbuilder');
 var AWS = require('aws-sdk');
 
 var madlibStories = require('./madlibStories.js');
-//var MyContainer = require('./my_container.js');
-//var MyMadlibContainer = new MyContainer('MyMadLibContainer');
-//var MyMadlib = require('./my_madlib.js');
+var MyContainer = require('./my_container.js');
+var MyMadlibContainer = new MyContainer('MyMadLibContainer');
+var MyMadlibClass = require('./my_madlib.js');
 
 // Setup dynamoDB
 AWS.config.update({
@@ -37,6 +37,9 @@ SkillService.launch(
 
     for (let iStory of madlibStories.MADLIBS) {
         console.log('madlibbuilder: iStory = ', iStory);
+        var myTmpMadlib = new MyMadlibClass(iStory.name);
+        myTmpMadlib.set_story_template(iStory);
+        MyMadlibContainer.add_object(myTmpMadlib);
     }
 
 // Check to see if user has previously stored unfinished madlib   
@@ -67,16 +70,12 @@ SkillService.launch(
 
 //        } else {
 
-            // Array to keep track of madlib words
-              var myWordArray = new Array();
-
               prompt+= prompt + ' Here is the list of madlibs you can play.';
 
               var name1 = '';
               prompt+=prompt+ 'Just say, play' + name1 + 
                   ' if you want to play the ' + name1 + ' madlib, or any other one from the list.'; 
 
-              response.sessionObject.set('WordArray', myWordArray); 
               response.sessionObject.set('AppState', 'ChooseMadlib'); 
               response.say(prompt).shouldEndSession(false);
 //        }
@@ -86,6 +85,9 @@ SkillService.launch(
 SkillService.intent('FillIntent', {
     },
     function(request, response) {
+        var currentGame = MyMadlibContainer.get_object('Summertime');
+        var prompt = 'Please give me one ' + currentGame.get_current_wordtype_spoken();
+        response.say(prompt).shouldEndSession(false);
         response.sessionObject.set('AppState', 'FillingMadlib'); 
     });
 
@@ -94,14 +96,18 @@ SkillService.intent('WordIntent', {
     'utterances': ['{CURRENTWORD}'] 
     },
     function(request, response) {
-        
-        var myWordArray = request.sessionAttributes.WordArray;
-        var currWord = request.slot('CURRENTWORD');
-        myWordArray.push(currWord);
 
-        response.sessionObject.set('WordArray', myWordArray); 
-        response.sessionObject.set('AppState', 'DoneMadlib'); 
-        response.say('What?').shouldEndSession(false);
+        var currWord = request.slot('CURRENTWORD');
+        var currentGame = MyMadlibContainer.get_object('Summertime');
+        
+        currentGame.set_current_word(currWord);
+
+        var prompt = 'Please give me one ' + currentGame.get_current_wordtype_spoken();
+        if (prompt === null) {
+            prompt = 'The madlib is filled out.  Do you want me to read it back?';
+            response.sessionObject.set('AppState', 'DoneMadlib'); 
+        }
+        response.say(prompt).shouldEndSession(false);
     });
 
 SkillService.intent('ReadbackIntent', {}, 
