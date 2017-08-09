@@ -45,7 +45,6 @@ describe('MyMadlibClass', function() {
             var myMadlib = new MyMadlibClass('myMadlibName');
             myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
-
             assert.equal('noun', myMadlib.get_current_wordtype_spoken());
         });
     });
@@ -58,7 +57,6 @@ describe('MyMadlibClass', function() {
             myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
             myMadlib.set_current_word('car');  // noun 
-
             assert.equal(null, myMadlib.get_current_wordtype_spoken());
         });
     });
@@ -67,15 +65,12 @@ describe('MyMadlibClass', function() {
 describe('MyMadlibClass', function() {
     describe('get_current_wordtype_spoken()', function() {
         it('should return "noun"  when you have restored with Summertime madlib with first word already filled out, then get_current_wordtype_spoken()', function() {
-           
             var myMadlib = new MyMadlibClass('myMadlibName');
             myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
             var previousState = myMadlib.get_state();
-            console.log('Inside test: previousState = ', previousState);
             var myMadlib2 = new MyMadlibClass('myMadlibName2');
             myMadlib2.set_state(previousState);
-
             assert.equal('noun', myMadlib2.get_current_wordtype_spoken());
         });
     });
@@ -87,7 +82,6 @@ describe('MyMadlibClass', function() {
             var myMadlib = new MyMadlibClass('myMadlibName');
             myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
-
             assert.equal(null, myMadlib.get_story_spoken());
         });
     });
@@ -100,7 +94,6 @@ describe('MyMadlibClass', function() {
             myMadlib.set_story_template(madlibStories.MADLIBS[1]);
             myMadlib.set_current_word('happy');  // adjective
             myMadlib.set_current_word('car');  // noun
-            
             var targetStory = 'Once  upon  a  summertime ,  there  was  this happy  bicycle  which  looked  like  a  big car . ';
             assert.equal(targetStory, myMadlib.get_story_spoken());
         });

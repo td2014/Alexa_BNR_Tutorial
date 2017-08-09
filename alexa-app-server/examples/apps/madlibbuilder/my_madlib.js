@@ -22,7 +22,6 @@ MyMadlib.prototype.set_state = function(storyTemplateObject){
 
 MyMadlib.prototype.get_current_wordtype_spoken = function(){
    var storyTemplate = this.get_object('storyTemplate');
-   console.log('get_current_wordtype_spoken: storyTemplate.templateFillMap = ', storyTemplate.templateFillMap);
    
    for (let iPos=0; iPos < storyTemplate.wordfilltype.length; iPos++) {
        let currKey = 'word_'+iPos.toString();
@@ -35,7 +34,6 @@ MyMadlib.prototype.get_current_wordtype_spoken = function(){
 
 MyMadlib.prototype.set_current_word = function(currWord){
    var storyTemplate = this.get_object('storyTemplate');
-   console.log('set_current_word: storyTemplate.templateFillMap = ', storyTemplate.templateFillMap);
    
    for (let iPos=0; iPos < storyTemplate.wordfilltype.length; iPos++) {
        let currKey = 'word_'+iPos.toString();
@@ -70,8 +68,6 @@ MyMadlib.prototype.set_story_template = function(storyTemplateMap){
 //    {abc. OR {abc, OR {abc(space)   or  abc}  NOT allowed
 
     var storyTemplate = storyTemplateMap.content;
-    console.log('set_story_template: name = ', storyTemplateMap.name); 
-    console.log('set_story_template: storyTemplate = ', storyTemplate);
 
     var wordArray = _.words(storyTemplate, /[,.]|\{[a-zA-Z]+\}|\s[a-zA-Z]+(?!\})(?=\s|\.|\,)|^[a-zA-Z]+(?!\})(?=\s|\.|\,)/g);
 
@@ -108,7 +104,6 @@ MyMadlib.prototype.set_story_template = function(storyTemplateMap){
                                 'wordfilltype': wordFillTypeArray,
                                 'templateFillMap': templateFillMap};
     this.add_object(storyTemplateObject);
-    console.log('storyTemplateObject', storyTemplateObject);
     return storyTemplate;
 };
 
